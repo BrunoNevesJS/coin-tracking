@@ -15,10 +15,15 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', (ws: WebSocket) => {
 
     ws.on('message', (message: string) => {
-        ws.send(`${message}`);
+        wss.clients
+            .forEach((client) => {
+                client.send(`Client enviou mensagem: ${message}`);
+            });
     });
-});
+
+    ws.send('Client conectado com sucesso')
+})
 
 server.listen(process.env.PORT || 8999, () => {
-    console.log(`Server started on port ${server?.address()} :)`);
+    console.log(`Server inicializado na porta ${(server.address() as WebSocket.AddressInfo).port}`);
 });
