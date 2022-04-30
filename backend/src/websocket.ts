@@ -1,25 +1,30 @@
+import { v4 as uuidv4 } from 'uuid';
 import * as WebSocket from 'ws';
 
 const WebSocketServer = require('ws').Server,
-  wss = new WebSocketServer({ port: 8998 })
-
+    wss = new WebSocketServer({ port: 8998 });
 const clients = new Map();
+const rooms = new Map();
 
-const wsc = new WebSocket("wss://stream.binance.com:9443/ws/btcbusd@bookTicker");
-
-wsc.onmessage = (event) => {
-    wss.clients.forEach((client: WebSocket) => {
-        if (client.readyState === WebSocket.OPEN)
-            client.send(`${event.data}`)
-    });
-}
- 
 wss.on('connection', (ws: WebSocket) => {
-    const id = clients.size + 1;
+    const id = uuidv4();
     clients.set(ws, id);
 
-    ws.on('message', (message: string) => {
-        console.log(clients.get(ws), message);
+    ws.on('message', (message: WebSocket.RawData) => {
+        const { crypto, action } = JSON.parse(message.toString())
+
+        switch (action) {
+            case 'join':
+                if (!rooms.has(crypto)) rooms.set(crypto, []);
+                if (!rooms.get(crypto).includes(clients.get(ws))) rooms.get(crypto).push({client: clients.get(ws), ws});
+            break;
+            case 'close':
+                const index = rooms.get(crypto).indexOf(clients.get(ws))
+                rooms.get(crypto).splice(index, 1);
+                // TODO: Excluir room quando não existir mais clients conectados ao socket
+            break;
+        }
+        console.log(clients.get(ws));
     });
 
     ws.send('Client conectado com sucesso')
@@ -29,4 +34,4 @@ wss.on('connection', (ws: WebSocket) => {
     });
 })
 
-exports.module = wss;
+module.exports = { wss, rooms };

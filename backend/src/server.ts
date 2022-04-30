@@ -5,7 +5,8 @@ import * as WebSocket from 'ws';
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const wss = require('./websocket')
+const { wss, rooms } = require('./websocket')
+const routes = require('./routes/index')
 
 app.use(express.json());
 app.use(cors());
@@ -22,3 +23,15 @@ server.on('upgrade', async (request: http.IncomingMessage, duplex: Duplex, buffe
         wss.emit('connection', ws, request);
     });
 });
+
+app.get('/get', (req: any, res: any) => {
+    const wsc = new WebSocket(`wss://stream.binance.com:9443/ws/${req.query.id}@trade`);
+
+    wsc.onmessage = (event) => {
+        rooms.get(req.query.id).forEach(({ws}: any) => {
+            ws.send(`${event.data}`)
+        })
+    }
+})
+
+app.use('/', routes)

@@ -3,6 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const ws = new WebSocket('ws://localhost:8998/')
+
+  ws.onopen = (event: any) => {
+    console.log(event)
+  };
+
+  ws.onmessage = (event: MessageEvent) => {
+    console.log(JSON.parse(event.data))
+  };
+
+
   return (
     <div className="App">
       <header className="App-header">
