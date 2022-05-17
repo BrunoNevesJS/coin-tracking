@@ -5,9 +5,9 @@ import { ThemeProvider } from '@material-ui/core/styles'
 
 import { theme } from 'styles/theme';
 
-import 'index.css';
 import App from 'App';
 import reportWebVitals from 'reportWebVitals';
+import GlobalStyles from 'styles/global';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,6 +17,7 @@ root.render(
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <App />
+          <GlobalStyles />
         </ThemeProvider>
       </BrowserRouter>
   </React.StrictMode>
