@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 
 import { theme } from 'styles/theme';
+import { AppRouter } from 'routes';
 
-import App from 'App';
 import reportWebVitals from 'reportWebVitals';
 import GlobalStyles from 'styles/global';
 
@@ -14,12 +14,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <App />
-          <GlobalStyles />
-        </ThemeProvider>
-      </BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <AppRouter />
+        <GlobalStyles />
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
