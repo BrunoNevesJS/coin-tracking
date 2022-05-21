@@ -32,4 +32,4 @@ jobs:
           git remote add heroku-frontend https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.FRONTEND_HEROKU_APP_NAME }}.git
       - name: Deploy frontend to Heroku
         run: |
-          git subtree push --prefix frontend heroku master
+          git push --force heroku `git subtree split --prefix frontend HEAD`:master
