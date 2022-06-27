@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@mui/material/styles';
 
 import { theme } from 'styles/theme';
 import { AppRouter } from 'routes';
 
 import reportWebVitals from 'reportWebVitals';
-import GlobalStyles from 'styles/global';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +16,6 @@ root.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <AppRouter />
-        <GlobalStyles />
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>

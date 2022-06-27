@@ -1,4 +1,4 @@
-import { createStyles, makeStyles } from '@material-ui/core';
+import { createStyles, makeStyles } from '@mui/material/styles'
 
 import { sg } from './styleGuide'
 
@@ -36,10 +36,6 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const GlobalStyles = () => {
-  useStyles();
-
-  return null;
-};
+const GlobalStyles = useStyles;
 
 export default GlobalStyles;

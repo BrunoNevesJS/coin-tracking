@@ -1,5 +1,5 @@
-import { ptBR } from '@material-ui/core/locale'
-import { createTheme } from '@material-ui/core/styles'
+import { ptBR } from '@mui/material/locale';
+import { createTheme } from '@mui/material/styles';
 
 import { sg } from './styleGuide'
 
