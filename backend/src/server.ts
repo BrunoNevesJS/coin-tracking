@@ -13,8 +13,11 @@ app.use(cors());
 
 const server = http.createServer(app);
 
+import ServerWebSocket from './websocket/server';
+
 server.listen(process.env.PORT || 8999, () => {
     console.log(`Server inicializado na porta ${(server.address() as WebSocket.AddressInfo).port}`);
+    ServerWebSocket.execute();
 });
 
 server.on('upgrade', async (request: http.IncomingMessage, duplex: Duplex, buffer: Buffer) => {
