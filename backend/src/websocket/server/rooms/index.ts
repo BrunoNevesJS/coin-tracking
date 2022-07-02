@@ -2,39 +2,43 @@ import { MapClients, IClient, MapRoom, Nullable } from './IRooms';
 
 export class Rooms {
     rooms!: MapRoom;
-    clients!: MapClients;
 
     constructor() { }
 
-    joinRoom(room: string, client: IClient): boolean | never {
-        const checkRoom = this.hasRoom(room);
+    joinRoom(id: string, client: IClient): boolean | never {
+        const room: Nullable<IClient[]> = this.getRoomById(id);
 
-        if (!room) throw Error('room cannot be empty');
+        if (!id) throw Error('room cannot be empty');
         if (!client) throw Error('client cannot be empty');
-        if (!checkRoom) throw Error('client cannot be empty');
 
-        if (this.getRoom(room))
-            this.rooms.get(room)?.push(client);
-        else 
-            this.createRoom(room);
+        if (room) {
+            this.setClientIntoRoom(room, client);
+        } else {
+            const newRoom = this.createRoom(id);
+            this.setClientIntoRoom(newRoom, client);
+        }
         
         return true;
     }
 
-    getRoom(room: string): Nullable<IClient[]> {
-        if (!room) throw Error('room cannot be empty');
-
-        return this.rooms.get(room);
+    getRoomById(id: string): Nullable<IClient[]> {
+        return this.rooms.get(id);
     }
 
-    createRoom(room: string) {
-        this.rooms.set(room, []);
+    createRoom(id: string): Nullable<IClient[]> {
+        this.rooms.set(id, []);
+
+        return this.rooms.get(id);
     }
 
-    hasRoom(room: string): boolean | never {
-        if (!room) throw Error('room not found');
+    hasRoom(id: string): boolean | never {
+        if (!id) throw Error('room not found');
 
-        return this.rooms.has(room);
+        return this.rooms.has(id);
+    }
+
+    setClientIntoRoom(room: Nullable<IClient[]>, client: IClient): void {
+        room?.push(client);
     }
 }
 
