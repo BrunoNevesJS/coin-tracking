@@ -21,4 +21,10 @@ describe("test functions rooms", () => {
 
     expect(rooms.hasRoom('room')).toBe(true);
   });
+
+  it("should check rooms not exists", () => {
+    const rooms = new Rooms();
+
+    expect(rooms.hasRoom('room')).toBe(false);
+  });
 });
