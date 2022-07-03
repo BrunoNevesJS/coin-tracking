@@ -1,4 +1,5 @@
-import { MapClients, IClient, MapRoom, Nullable } from './IRooms';
+import { MapRoom, Nullable } from './IRooms';
+import { IClient } from '../clients/IClient';
 
 export class Rooms {
     rooms: MapRoom = new Map<string, IClient[]>();
