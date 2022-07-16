@@ -12,7 +12,7 @@ describe("test functions rooms", () => {
     const rooms = new Rooms();
     rooms.createRoom('room');
 
-    expect(rooms.getRoomById('room')).toBe([]);
+    expect(rooms.getRoomById('room')).toStrictEqual([]);
   });
 
   it("should check rooms exists", () => {
@@ -20,5 +20,11 @@ describe("test functions rooms", () => {
     rooms.createRoom('room');
 
     expect(rooms.hasRoom('room')).toBe(true);
+  });
+
+  it("should check rooms not exists", () => {
+    const rooms = new Rooms();
+
+    expect(rooms.hasRoom('room')).toBe(false);
   });
 });

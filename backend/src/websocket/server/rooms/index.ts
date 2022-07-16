@@ -1,7 +1,8 @@
-import { MapClients, IClient, MapRoom, Nullable } from './IRooms';
+import { MapRoom, Nullable } from './IRooms';
+import { IClient } from '../clients/IClient';
 
 export class Rooms {
-    rooms!: MapRoom;
+    rooms: MapRoom = new Map<string, IClient[]>();
 
     constructor() { }
 
@@ -40,6 +41,10 @@ export class Rooms {
     setClientIntoRoom(room: Nullable<IClient[]>, client: IClient): void {
         room?.push(client);
     }
+
+    searchClient(room: Nullable<IClient[]>, clint: IClient) {
+        //room?.find(clint);
+    }
 }
 
-export default Rooms;
+export default new Rooms();
