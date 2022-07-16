@@ -47,4 +47,4 @@ export class Rooms {
     }
 }
 
-export default Rooms;
+export default new Rooms();

@@ -1,7 +1,13 @@
 import { WebSocketServer } from 'ws';
 
 import Clients from './clients';
-import { IServerWebSocket, EventOnMessage } from './IServerWebSocket';
+import Rooms from './rooms';
+import { 
+    IServerWebSocket,
+    EventOnMessage,
+    Message 
+} from './IServerWebSocket';
+import { IClient } from './clients/IClient';
 
 export class ServerWebSocket implements IServerWebSocket {
     private wss: WebSocketServer;
@@ -14,18 +20,23 @@ export class ServerWebSocket implements IServerWebSocket {
         this.wss.on('connection', (ws: WebSocket) => {
             if (callback) callback();
 
-            Clients.createClient(ws);
+            const client = Clients.createClient(ws);
     
-            this.onListenerMessage(ws);
+            this.onListenerMessage(ws, client);
             this.onListenerClose(ws);
         })
     }
 
-    public onListenerMessage = (ws: WebSocket) => {
+    public onListenerMessage = (ws: WebSocket, client: IClient) => {
         ws.onmessage = (event: EventOnMessage) => {
             try {
-                const { action, room } = JSON.parse(event.data.toString());
-                console.log(action, room);
+                const { action, roomId } = JSON.parse(event.data.toString()) as Message;
+
+                switch (action) {
+                    case 'join':
+                        Rooms.joinRoom(roomId, client);
+                    break;
+                }
 
             } catch (error) {
                 console.error(error);
