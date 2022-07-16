@@ -22,13 +22,13 @@ export class ServerWebSocket implements IServerWebSocket {
 
             const client = Clients.createClient(ws);
     
-            this.onListenerMessage(ws, client);
+            this.onListenerMessage(client);
             this.onListenerClose(ws);
         })
     }
 
-    public onListenerMessage = (ws: WebSocket, client: IClient) => {
-        ws.onmessage = (event: EventOnMessage) => {
+    public onListenerMessage = (client: IClient) => {
+        client.websocket.onmessage = (event: EventOnMessage) => {
             try {
                 const { action, roomId } = JSON.parse(event.data.toString()) as Message;
 
