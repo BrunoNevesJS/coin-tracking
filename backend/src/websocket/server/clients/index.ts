@@ -1,19 +1,23 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { IClient, MapClients } from '../clients/IClient';
 
 export class Clients {
     clients: MapClients = new Map<WebSocket, string>();
 
-    constructor({ id, websocket }: IClient) {
-        this.createClient(id, websocket);
-    }
-
-    createClient(id: string, ws: WebSocket){
+    public createClient(ws: WebSocket) {
+        const id = uuidv4();
         this.clients.set(ws, id);
+
+        return <IClient> { 
+            websocket: ws,
+            id
+        };
     }
 
-    getClientByWebSocket(ws: WebSocket): string {
-       return this.clients?.get(ws) ?? ''
+    public getClientByWebSocket(ws: WebSocket): string | null {
+       return this.clients?.get(ws) ?? null
     }
 }
 
-export default Clients;
+export default new Clients();
