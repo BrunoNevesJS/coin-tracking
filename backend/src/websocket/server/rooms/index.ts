@@ -12,6 +12,8 @@ export class Rooms {
         if (!id) throw Error('room cannot be empty');
         if (!client) throw Error('client cannot be empty');
 
+        //TODO: bloquear client ja cadastrado, independente da sala
+
         if (room) {
             this.setClientIntoRoom(room, client);
         } else {
@@ -42,9 +44,22 @@ export class Rooms {
         room?.push(client);
     }
 
-    searchClient(room: Nullable<IClient[]>, clint: IClient) {
-        //room?.find(clint);
+    searchClient(room: Nullable<IClient[]>, client: IClient): Nullable<number> {
+        return room?.indexOf(client);
+    }
+
+    leaveRoom(roomId: string, client: IClient): void {
+        const room = this.getRoomById(roomId);
+        const index = this.searchClient(room, client);
+
+        if (typeof index === 'number') { 
+            room?.splice(index, 1);
+        }
+    }
+
+    getRooms() {
+        return this.rooms;
     }
 }
 
-export default new Rooms();
+export default Rooms;

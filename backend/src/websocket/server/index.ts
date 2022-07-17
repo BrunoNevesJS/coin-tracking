@@ -11,9 +11,11 @@ import { IClient } from './clients/IClient';
 
 export class ServerWebSocket implements IServerWebSocket {
     private wss: WebSocketServer;
+    private rooms: Rooms;
 
     constructor() {
         this.wss = new WebSocketServer({ port: 8997 });
+        this.rooms = new Rooms();
     }
 
     public execute = (callback?: Function) => {
@@ -34,7 +36,15 @@ export class ServerWebSocket implements IServerWebSocket {
 
                 switch (action) {
                     case 'join':
-                        Rooms.joinRoom(roomId, client);
+                        this.rooms.joinRoom(roomId, client);
+                    break;
+
+                    case 'leave':
+                        this.rooms.leaveRoom(roomId, client);
+                    break;
+
+                    case 'check':
+                        this.rooms.getRooms();
                     break;
                 }
 
@@ -49,6 +59,8 @@ export class ServerWebSocket implements IServerWebSocket {
             console.log(event)
         };
     }
+
+    public getRooms = () => this.rooms;
 }
 
 export default new ServerWebSocket();
