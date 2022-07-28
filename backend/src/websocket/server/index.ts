@@ -33,7 +33,7 @@ export class ServerWebSocket implements IServerWebSocket {
         client.websocket.onmessage = (event: EventOnMessage) => {
             try {
                 const { action, roomId } = JSON.parse(event.data.toString()) as Message;
-
+            
                 switch (action) {
                     case 'join':
                         this.rooms.joinRoom(roomId, client);
@@ -56,11 +56,16 @@ export class ServerWebSocket implements IServerWebSocket {
 
     public onListenerClose = (ws: WebSocket) => {
         ws.onclose = function(event) {
-            console.log(event)
         };
     }
 
-    public getRooms = () => this.rooms;
+    public getRooms = (): Rooms => this.rooms;
+
+    public close = () => {
+        const { rooms } = this.getRooms();
+        //TODO: fechar todas as websocket e deletar
+        this.rooms = new Rooms();
+    }
 }
 
 export default new ServerWebSocket();
