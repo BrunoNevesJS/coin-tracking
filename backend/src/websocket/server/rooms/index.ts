@@ -16,14 +16,12 @@ export class Rooms {
         //TODO: bloquear client ja cadastrado, independente da sala
 
         if (room) {
-            this.setClientIntoRoom(room, client);
+            return this.setClientIntoRoom(room, client);
         } else {
             const newRoom = this.createRoom(id);
 
             return newRoom ? this.setClientIntoRoom(newRoom, client) : false
         }
-
-        return true;
     }
 
     getRoomById(id: string): Nullable<IClient[]> {
