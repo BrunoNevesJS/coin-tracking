@@ -22,11 +22,11 @@ export class Rooms {
 
             return newRoom ? this.setClientIntoRoom(newRoom, client) : false
         }
-        
+
         return true;
     }
 
-    getRoomById(id: string): Nullable<IClient[]> {        
+    getRoomById(id: string): Nullable<IClient[]> {
         return this.rooms.get(id);
     }
 
@@ -55,7 +55,7 @@ export class Rooms {
         const room = this.getRoomById(roomId);
         const index = this.searchClient(room, client);
 
-        if (typeof index === 'number') { 
+        if (typeof index === 'number') {
             room?.splice(index, 1);
         }
     }
