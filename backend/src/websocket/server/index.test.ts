@@ -1,7 +1,7 @@
 import WebSocket = require("ws");
 
 import ServerWebSocket from ".";
-import { convertObjectToBuffer } from '../../utils/buffer';
+import { convertObjectToBuffer } from '../../utils/serverWebSocketUtils';
 import { Message } from "./IServerWebSocket";
 
 const PORT = 8997;
