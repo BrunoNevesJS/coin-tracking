@@ -52,7 +52,7 @@ describe("WebSocket Server", () => {
         };
     }, 5000);
 
-    test('1111111', (done) => {
+    test('should check number rooms', (done) => {
         const { rooms: { size } } = ServerWebSocket.getRooms();
 
         done(expect(size).toBe(1));
